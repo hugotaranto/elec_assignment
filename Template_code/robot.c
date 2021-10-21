@@ -101,8 +101,8 @@ int checkRobotSensorLeftAllWalls(struct Robot * robot, struct Wall_collection * 
     for (i = 0; i < 5; i++)
     {
         ptr = head_store;
-        xDir = round(robotCentreX+(-ROBOT_WIDTH/2)*cos((robot->angle)*PI/180)-(-ROBOT_HEIGHT/2-SENSOR_VISION+sensor_sensitivity*i)*sin((robot->angle)*PI/180));
-        yDir = round(robotCentreY+(-ROBOT_WIDTH/2)*sin((robot->angle)*PI/180)+(-ROBOT_HEIGHT/2-SENSOR_VISION+sensor_sensitivity*i)*cos((robot->angle)*PI/180));
+        xDir = round(robotCentreX+(-ROBOT_WIDTH/2-SENSOR_VISION+sensor_sensitivity*i)*cos((robot->angle)*PI/180)-(0)*sin((robot->angle)*PI/180));
+        yDir = round(robotCentreY+(-ROBOT_WIDTH/2-SENSOR_VISION+sensor_sensitivity*i)*sin((robot->angle)*PI/180)+(0)*cos((robot->angle)*PI/180));
         xTL = (int) xDir;
         yTL = (int) yDir;
         hit = 0;

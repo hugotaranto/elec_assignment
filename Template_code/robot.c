@@ -404,17 +404,20 @@ void robotAutoMotorMove(struct Robot * robot, int front_left_sensor, int front_r
 
     if ((front_left_sensor == 0) && (front_right_sensor == 0)) {
         if (robot->currentSpeed<6)
-            // robot->direction = UP;
-            robot->currentSpeed = 15;
+            robot->direction = UP;
+            // robot->currentSpeed = 15;
             if (distance > 5) {
                 lastMove = 0;
+            }
+            if (robot->currentSpeed == 0) {
+                return;
             }
     }
 
 
     if ((robot->currentSpeed>0) && ((front_left_sensor != 0) || (front_right_sensor != 0)) ) {
-        // robot->direction = DOWN;
-        robot->currentSpeed = 0;
+        robot->direction = DOWN;
+        // robot->currentSpeed = 0;
     }
 
     if (robot->currentSpeed == 0 && lastMove == 0) {

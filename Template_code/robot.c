@@ -1,9 +1,9 @@
 #include "robot.h"
 
 int moves[6];
-int lastMove;
-int moveNum;
-int distance;
+int start = 1;
+int holeOnLeft = 0, leftDetected = 0, turned = 0, distance = 0;
+
 // bool turning = false;
 
 void setup_robot(struct Robot *robot){
@@ -374,113 +374,93 @@ void robotMotorMove(struct Robot * robot) {
 
 void robotAutoMotorMove(struct Robot * robot, int front_left_sensor, int front_right_sensor, int left_side_sensor, int right_side_sensor) {
 
-    int turning = 0;
 
-    if(moves[5] != 0) {
-        lastMove = moves[0];
-        for(int i = 0; i < 6; i++) {
-            moves[i] = 0;
+    if (left_side_sensor == 0 && leftDetected == 1 && robot->currentSpeed > 0 && distance > 5) {  // compares current left side sensor with old, if old was detected and current isn't there is a hole on left
+        holeOnLeft = 1;
+    }
+
+    if (left_side_sensor > 0) {  // sets leftdetected for comparison next time
+        leftDetected = 1;
+    }
+
+    distance ++;
+
+    if (holeOnLeft == 1) {  // slows down and turns left if there is a hole on the left
+
+        if (robot->currentSpeed != 0) {
+            robot->direction = DOWN;
+        } else {
+            turn(robot, 3);
+            holeOnLeft = 0;
         }
+        return;
+    }
+
+    if (moves[0] != 0 && moves[5] == 0) {  // if a left turn has already been started this completes it
+        turn(robot, moves[0]);
+        return;
+    }
+
+    if (start == 1 && left_side_sensor == 0) {  // checks if left sensor can see anything at the start || this if statement is only used once at the start if at all
+        turn(robot, 3);
+        return;
+    }
+
+    if (robot->currentSpeed < 6 && front_left_sensor == 0) {  // speeds robot up
+        robot->direction = UP;
+    }
+
+    if (robot->currentSpeed > 0 && front_left_sensor > 0) {  // slows robot down
+        robot-> direction = DOWN;
+        return;
+    }
+
+    if (front_left_sensor == 0 && left_side_sensor == 0 && right_side_sensor == 0) {
+        return;
+    }
+
+    if (robot->currentSpeed == 0 && front_left_sensor > 0) {  // if robot approaches wall turn right
+        turn(robot, 4);
+        return;
+    }
+
+    
+
+    // if (robot-> currentSpeed < 6) {
+    //     robot->direction = UP;
+    // }
+
+
+    // if (left_side_sensor == 0 || (moves[0] == 3 && moves[5] == 0)) {  // checks if left sensor is 0 or if left turn has already been started
+    //     turnLeft(robot);
+    // }
+
+
+
+
+}
+
+void turn(struct Robot * robot, int direction) {
+
+    if (robot->currentSpeed > 3) {
+        robot->direction = DOWN;
     } else {
+        robot->direction = direction;
 
-        if (moves[0] == 3) {
-            robot->direction = LEFT;
-
-        } else if (moves[0] == 4) {
-            robot->direction = RIGHT;
-        }
-
-        if (robot->direction != 0) {
-            for(int i = 0; i < 6; i++) {
-                if (moves[i] == 0) {
-                    moves[i] = robot->direction;
-                    break;
-                }
+        if (moves[4] == direction) {
+            for (int i = 0; i < 6; i++) {
+                moves[i] = 0;
             }
+            start = 0;
+            distance = 0;
             return;
         }
-    }
 
-
-    if ((front_left_sensor == 0) && (front_right_sensor == 0)) {
-        if (robot->currentSpeed<6)
-            robot->direction = UP;
-            // robot->currentSpeed = 15;
-            if (distance > 5) {
-                lastMove = 0;
-            }
-            if (robot->currentSpeed == 0) {
-                return;
-            }
-    }
-
-
-    if ((robot->currentSpeed>0) && ((front_left_sensor != 0) || (front_right_sensor != 0)) ) {
-        robot->direction = DOWN;
-        // robot->currentSpeed = 0;
-    }
-
-    if (robot->currentSpeed == 0 && lastMove == 0) {
-
-        if (front_left_sensor != 0 && front_right_sensor !=0 && left_side_sensor != 0 && right_side_sensor == 0) {
-            robot-> direction = RIGHT;
-            turning = 1;
-        }
-
-        if (front_left_sensor != 0 && front_right_sensor !=0 && left_side_sensor == 0 && right_side_sensor != 0) {
-            robot-> direction = LEFT;
-            turning = 1;
-        }
-
-        for(int i = 0; i < 6; i++) {
-                if (moves[i] == 0) {
-                    moves[i] = robot->direction;
-                    break;
-                }
-            }
-    }
-
-    if (turning == 0) {
-
-        if (moveNum == 1) {
-            if (lastMove == 4) {
-                robot->direction = RIGHT;
-            } 
-            for(int i = 0; i < 6; i++) {
-                    if (moves[i] == 0) {
-                        moves[i] = robot->direction;
-                        break;
-                    }
-                }
-                moveNum = 0;
-                return;
-        }
-
-        else if (robot->currentSpeed==0) {
-            
-            if (lastMove == 3) {
-                robot->direction = RIGHT;
-            } else {
-                robot->direction = LEFT;
-            } 
-
-            if (lastMove != 0) {
-                moveNum = 1;
-            }
-
-            for(int i = 0; i < 6; i++) {
-                if (moves[i] == 0) {
-                    moves[i] = robot->direction;
-                    break;
-                }
+        for (int i = 0; i < 6; i ++) {
+            if (moves[i] == 0) {
+                moves[i] = robot->direction;
+                break;
             }
         }
     }
-
-    if (robot->direction == 0) {
-        distance ++;
-    } else {
-        distance = 0;
-    }
-
 }

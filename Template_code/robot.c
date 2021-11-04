@@ -2,7 +2,7 @@
 
 int moves[6];
 int start = 1;
-int holeOnLeft = 0, leftDetected = 0, turned = 0, distance = 0, adjust = 0, adjustLeft = 1;
+int holeOnLeft = 0, leftDetected = 0, turned = 0, distance = 0, adjust = 0, adjustLeft = 1, adjustRight = 0;
 
 // bool turning = false;
 
@@ -421,19 +421,25 @@ void robotAutoMotorMove(struct Robot * robot, int front_left_sensor, int front_r
 
     if (left_side_sensor < 4 && left_side_sensor > 0 && distance > 1) {
         adjust = 1;
-    } else {
-        adjust = 0;
+    } 
+
+    if (adjust == 1 && left_side_sensor == 4) {
+        adjustRight = 1;
     }
 
-    if (adjust == 1 || adjustLeft == 0) {
-        if (adjustLeft) {
-            robot->direction = LEFT;
-            adjustLeft = 0;
-        } else {
-            robot->direction = RIGHT;
-            adjustLeft = 1;
-        }
+    if (adjust == 1 && adjustRight == 1) {
+        robot->direction = RIGHT;
+        adjust = 0;
+        adjustLeft = 1;
+        adjustRight = 0;
     }
+
+    if (adjust == 1 && adjustLeft == 1) {
+        robot->direction = LEFT;
+        adjustLeft = 0;
+    }
+
+    
 
     // if (front_left_sensor == 0 && left_side_sensor == 0 && right_side_sensor == 0) {
     //     return;

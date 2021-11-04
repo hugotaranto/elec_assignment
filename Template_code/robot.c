@@ -415,15 +415,14 @@ void robotAutoMotorMove(struct Robot * robot, int front_left_sensor, int front_r
             return;
         }
         turn(robot, 4);
-        printf("here\n");
         return;
     }
 
-    if (left_side_sensor < 4 && left_side_sensor > 0 && distance > 1) {
+    if (left_side_sensor < 4 && left_side_sensor > 0 && distance > 2) { // when the left side is on a wall it adjusts so that the value is 4 (close to the wall) turns left
         adjust = 1;
     } 
 
-    if (adjust == 1 && left_side_sensor == 4) {
+    if (adjust == 1 && left_side_sensor == 4) {  //if it has adjusted and the left sensor becomes 4 it turns right
         adjustRight = 1;
     }
 
@@ -438,17 +437,6 @@ void robotAutoMotorMove(struct Robot * robot, int front_left_sensor, int front_r
         robot->direction = LEFT;
         adjustLeft = 0;
     }
-
-    
-
-    // if (front_left_sensor == 0 && left_side_sensor == 0 && right_side_sensor == 0) {
-    //     return;
-    // }
-
-    // if (robot->currentSpeed == 0 && front_left_sensor > 0) {  // if robot approaches wall turn right
-    //     turn(robot, 4);
-    //     return;
-    // }
 
 }
 

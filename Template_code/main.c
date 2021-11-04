@@ -37,16 +37,27 @@ int main(int argc, char *argv[]) {
     // Overall window height = 480
     // Overall window width = 640
 
-    insertAndSetFirstWall(&head, 1,  OVERALL_WINDOW_WIDTH/2, OVERALL_WINDOW_HEIGHT/2, 10, OVERALL_WINDOW_HEIGHT/2);
-    insertAndSetFirstWall(&head, 2,  OVERALL_WINDOW_WIDTH/2-100, OVERALL_WINDOW_HEIGHT/2+100, 10, OVERALL_WINDOW_HEIGHT/2-100);
-    insertAndSetFirstWall(&head, 3,  OVERALL_WINDOW_WIDTH/2-200, OVERALL_WINDOW_HEIGHT/2, 200, 10);
-    insertAndSetFirstWall(&head, 4,  OVERALL_WINDOW_WIDTH/2-200, OVERALL_WINDOW_HEIGHT/2, 10, OVERALL_WINDOW_HEIGHT/2-100);
-    insertAndSetFirstWall(&head, 5,  OVERALL_WINDOW_WIDTH/2-320, OVERALL_WINDOW_HEIGHT/2+230, 220, 10);
-    insertAndSetFirstWall(&head, 6,  OVERALL_WINDOW_WIDTH/2-320, OVERALL_WINDOW_HEIGHT/2-100, 10, OVERALL_WINDOW_HEIGHT/2+100);
-    insertAndSetFirstWall(&head, 7,  OVERALL_WINDOW_WIDTH/2-320, OVERALL_WINDOW_HEIGHT/2-100, 320, 10);
-    insertAndSetFirstWall(&head, 8,  OVERALL_WINDOW_WIDTH/2+100, OVERALL_WINDOW_HEIGHT/2-240, 10, OVERALL_WINDOW_HEIGHT);
-    insertAndSetFirstWall(&head, 9,  OVERALL_WINDOW_WIDTH/2, OVERALL_WINDOW_HEIGHT/2-240, 10, OVERALL_WINDOW_HEIGHT/2-90);
-    insertAndSetFirstWall(&head, 10,  OVERALL_WINDOW_WIDTH/2, OVERALL_WINDOW_HEIGHT/2-240, 100, 10);
+    insertAndSetFirstWall(&head, 1,  0, 0, 10, OVERALL_WINDOW_HEIGHT);
+    insertAndSetFirstWall(&head, 2,  80, OVERALL_WINDOW_HEIGHT - 400, 10, 400 );
+    insertAndSetFirstWall(&head, 3,  80, OVERALL_WINDOW_HEIGHT - 400, 150, 10);
+    insertAndSetFirstWall(&head, 4,  300, 0, 10, 410);
+    insertAndSetFirstWall(&head, 5,  160, OVERALL_WINDOW_HEIGHT - 320, 150, 10);
+    insertAndSetFirstWall(&head, 6,  0, 0, OVERALL_WINDOW_WIDTH, 10);
+    insertAndSetFirstWall(&head, 7,  160, OVERALL_WINDOW_HEIGHT - 240, 140, 10);
+    insertAndSetFirstWall(&head, 8,  160, OVERALL_WINDOW_HEIGHT - 160, 150, 10);
+    insertAndSetFirstWall(&head, 9,  80, OVERALL_WINDOW_HEIGHT - 80, 150, 10);
+    insertAndSetFirstWall(&head, 10,  0, OVERALL_WINDOW_HEIGHT-10, OVERALL_WINDOW_WIDTH, 10);
+    insertAndSetFirstWall(&head, 11,  380, 80, 10, 410);
+    insertAndSetFirstWall(&head, 12,  460, 80, 10, 90);
+    insertAndSetFirstWall(&head, 13,  550, 80, 100, 10);
+    insertAndSetFirstWall(&head, 14,  OVERALL_WINDOW_WIDTH - 10, 0, 10, OVERALL_WINDOW_HEIGHT - 80);
+    insertAndSetFirstWall(&head, 15,  380, 80, 90, 10);
+    insertAndSetFirstWall(&head, 16,  460, 160, 90, 10);
+    insertAndSetFirstWall(&head, 16,  460, 240, 180, 10);
+    insertAndSetFirstWall(&head, 16,  460, 320, 100, 10);
+    insertAndSetFirstWall(&head, 13,  550, 320, 10, 80);
+    insertAndSetFirstWall(&head, 13,  550, 400, 90, 10);
+    insertAndSetFirstWall(&head, 13,  460, 320, 10, 90);
 
 
     setup_robot(&robot);

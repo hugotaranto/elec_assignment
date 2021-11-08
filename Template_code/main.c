@@ -7,6 +7,7 @@
 #include "formulas.h"
 #include "wall.h"
 #include "robot.h"
+#include "math.h"
 
 int done = 0;
 

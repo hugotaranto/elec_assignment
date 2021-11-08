@@ -2,7 +2,7 @@
 
 int moves[6];
 int start = 1;
-int holeOnLeft = 0, leftDetected = 0, turned = 0, distance = 0, adjust = 0, adjustLeft = 1, adjustRight = 0;
+int holeOnLeft = 0, leftDetected = 0, turned = 0, distance = 0, adjust = 0, adjustLeft = 1, adjustRight = 0, turnsRight;
 
 // bool turning = false;
 
@@ -158,7 +158,7 @@ int checkRobotSensorFrontRightAllWalls(struct Robot * robot, struct Wall_collect
     int robotCentreX, robotCentreY, xTL, yTL;
     int score, hit;
 
-    int sensorSensitivityLength =  floor(SENSOR_VISION/5);
+    int sensorSensitivityLength =  floor(LONG_SENSOR_VISION/5);
 
     head_store = head;
     robotCentreX = robot->x+ROBOT_WIDTH/2;
@@ -168,8 +168,8 @@ int checkRobotSensorFrontRightAllWalls(struct Robot * robot, struct Wall_collect
     for (i = 0; i < 5; i++)
     {
         ptr = head_store;
-        xDir = round(robotCentreX+(ROBOT_WIDTH/2-2)*cos((robot->angle)*PI/180)-(-ROBOT_HEIGHT/2-SENSOR_VISION+sensorSensitivityLength*i)*sin((robot->angle)*PI/180));
-        yDir = round(robotCentreY+(ROBOT_WIDTH/2-2)*sin((robot->angle)*PI/180)+(-ROBOT_HEIGHT/2-SENSOR_VISION+sensorSensitivityLength*i)*cos((robot->angle)*PI/180));
+        xDir = round(robotCentreX+(ROBOT_WIDTH/2-2)*cos((robot->angle)*PI/180)-(-ROBOT_HEIGHT/2-LONG_SENSOR_VISION+sensorSensitivityLength*i)*sin((robot->angle)*PI/180));
+        yDir = round(robotCentreY+(ROBOT_WIDTH/2-2)*sin((robot->angle)*PI/180)+(-ROBOT_HEIGHT/2-LONG_SENSOR_VISION+sensorSensitivityLength*i)*cos((robot->angle)*PI/180));
         xTL = (int) xDir;
         yTL = (int) yDir;
         hit = 0;
@@ -272,12 +272,12 @@ void robotUpdate(struct SDL_Renderer * renderer, struct Robot * robot){
     SDL_RenderDrawLine(renderer,xTL, yTL, xTR, yTR);
 
     //Front Right Sensor
-    int sensor_sensitivity =  floor(SENSOR_VISION/5);
+    int sensor_sensitivity =  floor(LONG_SENSOR_VISION/5);
     int i;
     for (i = 0; i < 5; i++)
     {
-        xDir = round(robotCentreX+(ROBOT_WIDTH/2-2)*cos((robot->angle)*PI/180)-(-ROBOT_HEIGHT/2-SENSOR_VISION+sensor_sensitivity*i)*sin((robot->angle)*PI/180));
-        yDir = round(robotCentreY+(ROBOT_WIDTH/2-2)*sin((robot->angle)*PI/180)+(-ROBOT_HEIGHT/2-SENSOR_VISION+sensor_sensitivity*i)*cos((robot->angle)*PI/180));
+        xDir = round(robotCentreX+(ROBOT_WIDTH/2-2)*cos((robot->angle)*PI/180)-(-ROBOT_HEIGHT/2-LONG_SENSOR_VISION+sensor_sensitivity*i)*sin((robot->angle)*PI/180));
+        yDir = round(robotCentreY+(ROBOT_WIDTH/2-2)*sin((robot->angle)*PI/180)+(-ROBOT_HEIGHT/2-LONG_SENSOR_VISION+sensor_sensitivity*i)*cos((robot->angle)*PI/180));
         xTL = (int) xDir;
         yTL = (int) yDir;
 
@@ -286,6 +286,8 @@ void robotUpdate(struct SDL_Renderer * renderer, struct Robot * robot){
         SDL_RenderDrawRect(renderer, &rect);
         SDL_RenderFillRect(renderer, &rect);
     }
+
+    sensor_sensitivity = floor(SENSOR_VISION/5);
 
     //Front Left Sensor
     for (i = 0; i < 5; i++)
@@ -375,18 +377,30 @@ void robotMotorMove(struct Robot * robot) {
 void robotAutoMotorMove(struct Robot * robot, int front_left_sensor, int front_right_sensor, int left_side_sensor, int right_side_sensor) {
 
 
-    // printf("%d\n", right_side_sensor);
+    printf("%d\n", left_side_sensor);
 
-    if (left_side_sensor == 0 && leftDetected == 1 && robot->currentSpeed > 0 && distance > 1) {  // compares current left side sensor with old, if old was detected and current isn't there is a hole on left
+    if (turnsRight > 0) {
+        robot->direction = RIGHT;
+        turnsRight --;
+        printf("HERE \n");
+    }
+
+    if (left_side_sensor == 0 && leftDetected == 1 && robot->currentSpeed > 0 && distance > 2) {  // compares current left side sensor with old, if old was detected and current isn't there is a hole on left
+        // if (adjust == 1 ) {
+        //     printf("HERE \n");
+        //     robot->direction = RIGHT;
+        //     adjust = 0;
+        //     adjustLeft = 1;
+        //     adjustRight = 0;
+        // }
         holeOnLeft = 1;
     }
 
-    if (left_side_sensor > 0) {  // sets leftdetected for comparison next time
+    if (left_side_sensor > 0) {  // sets left detected for comparison next time
         leftDetected = 1;
     } else {
         leftDetected = 0;
     }
-
     distance ++;
 
     if (holeOnLeft == 1) {  // slows down and turns left if there is a hole on the left
@@ -398,6 +412,17 @@ void robotAutoMotorMove(struct Robot * robot, int front_left_sensor, int front_r
     }
 
     if (moves[0] != 0 && moves[5] == 0) {  // if a left turn has already been started this completes it
+
+        if (moves[0] == 3 && front_right_sensor > 1) {
+            for(int i = 0; i < 6; i++) {
+                if (moves[i] == 0) {
+                    turnsRight = i;
+                    robot->direction = RIGHT;
+                    return;
+                }
+            }
+        }
+
         turn(robot, moves[0]);
         return;
     }
@@ -413,7 +438,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_left_sensor, int front_r
         return;
     }
 
-    if (robot->currentSpeed > 0 && front_left_sensor > 0 && front_right_sensor > 0) {  // turns robot to the right if it detects a wall infront
+    if (robot->currentSpeed > 0 && front_right_sensor > 0) {   // turns robot to the right if it detects a wall infront
         if (robot->currentSpeed < 3) {
             robot->direction = UP;
             return;
@@ -422,48 +447,71 @@ void robotAutoMotorMove(struct Robot * robot, int front_left_sensor, int front_r
         return;
     }
 
-    if (left_side_sensor < 4 && left_side_sensor > 0 && distance > 2) { // when the left side is on a wall it adjusts so that the value is 4 (close to the wall) turns left
+    if (robot->currentSpeed < 9 && front_right_sensor == 0) {  // speeds robot up
+        robot->direction = UP;
+        return;
+    }
+
+    // if (distance == 0 && adjustLeft == 0) {
+    //     robot->direction = RIGHT;
+    //     adjust = 0;
+    //     adjustLeft = 1;
+    // }
+
+    if (left_side_sensor < 4 && left_side_sensor > 0 && distance > 4) { // when the left side is on a wall it adjusts so that the value is 4 (close to the wall) turns left
         adjust = 1;
     } 
 
-    if (adjust == 1 && left_side_sensor == 4) {  //if it has adjusted and the left sensor becomes 4 it turns right
-        adjustRight = 1;
+    if (front_right_sensor == 0 && left_side_sensor == 0 && distance > 4) {
+        adjust = 1;
+        if (robot->currentSpeed < 3) {
+            robot->direction = UP;
+        }
     }
 
-    if (adjust == 1 && adjustRight == 1) {
+    if ((adjust == 1 && left_side_sensor == 4) || (adjust == 1 && front_right_sensor > 0) && adjustLeft == 0) {  // if it has adjusted and the left sensor becomes 4 it turns right
         robot->direction = RIGHT;
         adjust = 0;
         adjustLeft = 1;
-        adjustRight = 0;
     }
+
+    // if (adjust == 1 && adjustRight == 1) {
+    //     robot->direction = RIGHT;
+    //     adjust = 0;
+    //     adjustLeft = 1;
+    //     adjustRight = 0;
+    // }
 
     if (adjust == 1 && adjustLeft == 1) {
         robot->direction = LEFT;
         adjustLeft = 0;
     }
 
+    // printf("HERE \n");
+    // printf("%d %d \n",robot->currentSpeed, front_right_sensor);
+
 }
 
 void turn(struct Robot * robot, int direction) {
 
-    if (robot->currentSpeed > 10) {
-        robot->direction = DOWN;
-    } else {
-        robot->direction = direction;
+    // if (robot->currentSpeed > 10) {
+    //     robot->direction = DOWN;
+    // } else {}
 
-        if (moves[4] == direction) {
-            for (int i = 0; i < 6; i++) {
-                moves[i] = 0;
-            }
-            distance = 0;
-            return;
+    robot->direction = direction;
+
+    if (moves[4] == direction) {
+        for (int i = 0; i < 6; i++) {
+            moves[i] = 0;
         }
+        distance = 0;
+        return;
+    }
 
-        for (int i = 0; i < 6; i ++) {
-            if (moves[i] == 0) {
-                moves[i] = robot->direction;
-                break;
-            }
+    for (int i = 0; i < 6; i ++) {
+        if (moves[i] == 0) {
+            moves[i] = robot->direction;
+            break;
         }
     }
 }

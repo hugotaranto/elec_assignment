@@ -7,10 +7,10 @@ int holeOnLeft = 0, leftDetected = 0, turned = 0, distance = 0, adjust = 0, adju
 // bool turning = false;
 
 void setup_robot(struct Robot *robot){
-    robot->x = 35;
-    robot->y = OVERALL_WINDOW_HEIGHT - 50;
-    robot->true_x = 35;
-    robot->true_y = OVERALL_WINDOW_HEIGHT - 50;
+    robot->x = 270;
+    robot->y = 460;
+    robot->true_x = 270;
+    robot->true_y = 460;
     robot->width = ROBOT_WIDTH;
     robot->height = ROBOT_HEIGHT;
     robot->direction = 0;
@@ -375,18 +375,23 @@ void robotMotorMove(struct Robot * robot) {
 void robotAutoMotorMove(struct Robot * robot, int front_left_sensor, int front_right_sensor, int left_side_sensor, int right_side_sensor) {
 
 
+    // printf("%d\n", right_side_sensor);
+
     if (left_side_sensor == 0 && leftDetected == 1 && robot->currentSpeed > 0 && distance > 1) {  // compares current left side sensor with old, if old was detected and current isn't there is a hole on left
         holeOnLeft = 1;
     }
 
     if (left_side_sensor > 0) {  // sets leftdetected for comparison next time
         leftDetected = 1;
+    } else {
+        leftDetected = 0;
     }
 
     distance ++;
 
     if (holeOnLeft == 1) {  // slows down and turns left if there is a hole on the left
-        turn(robot, 3);
+        if (front_left_sensor == 0 && front_right_sensor == 0)
+            turn(robot, 3);
         holeOnLeft = 0;
         
         return;
@@ -408,8 +413,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_left_sensor, int front_r
         return;
     }
 
-    if (robot->currentSpeed > 0 && front_left_sensor > 0 && front_right_sensor > 0) {  // slows robot down
-        //robot-> direction = DOWN;
+    if (robot->currentSpeed > 0 && front_left_sensor > 0 && front_right_sensor > 0) {  // turns robot to the right if it detects a wall infront
         if (robot->currentSpeed < 3) {
             robot->direction = UP;
             return;
@@ -451,7 +455,6 @@ void turn(struct Robot * robot, int direction) {
             for (int i = 0; i < 6; i++) {
                 moves[i] = 0;
             }
-            //start = 0;
             distance = 0;
             return;
         }

@@ -37,27 +37,28 @@ int main(int argc, char *argv[]) {
     // Overall window height = 480
     // Overall window width = 640
 
-    insertAndSetFirstWall(&head, 1,  0, 0, 10, OVERALL_WINDOW_HEIGHT);
-    insertAndSetFirstWall(&head, 2,  80, OVERALL_WINDOW_HEIGHT - 400, 10, 400 );
-    insertAndSetFirstWall(&head, 3,  80, OVERALL_WINDOW_HEIGHT - 400, 150, 10);
-    insertAndSetFirstWall(&head, 4,  300, 0, 10, 410);
-    insertAndSetFirstWall(&head, 5,  160, OVERALL_WINDOW_HEIGHT - 320, 150, 10);
-    insertAndSetFirstWall(&head, 6,  0, 0, OVERALL_WINDOW_WIDTH, 10);
-    insertAndSetFirstWall(&head, 7,  160, OVERALL_WINDOW_HEIGHT - 240, 140, 10);
-    insertAndSetFirstWall(&head, 8,  160, OVERALL_WINDOW_HEIGHT - 160, 150, 10);
-    insertAndSetFirstWall(&head, 9,  80, OVERALL_WINDOW_HEIGHT - 80, 150, 10);
-    insertAndSetFirstWall(&head, 10,  0, OVERALL_WINDOW_HEIGHT-10, OVERALL_WINDOW_WIDTH, 10);
-    insertAndSetFirstWall(&head, 11,  380, 80, 10, 410);
-    insertAndSetFirstWall(&head, 12,  460, 80, 10, 90);
-    insertAndSetFirstWall(&head, 13,  550, 80, 100, 10);
-    insertAndSetFirstWall(&head, 14,  OVERALL_WINDOW_WIDTH - 10, 0, 10, OVERALL_WINDOW_HEIGHT - 80);
-    insertAndSetFirstWall(&head, 15,  380, 80, 90, 10);
-    insertAndSetFirstWall(&head, 16,  460, 160, 90, 10);
-    insertAndSetFirstWall(&head, 16,  460, 240, 180, 10);
-    insertAndSetFirstWall(&head, 16,  460, 320, 100, 10);
-    insertAndSetFirstWall(&head, 13,  550, 320, 10, 80);
-    insertAndSetFirstWall(&head, 13,  550, 400, 90, 10);
-    insertAndSetFirstWall(&head, 13,  460, 320, 10, 90);
+    insertAndSetFirstWall(&head, 2,  220, 400, 10, 80);
+    insertAndSetFirstWall(&head, 2,  20, 400, 200, 10);
+    insertAndSetFirstWall(&head, 2,  20, 50, 10, 350);
+    insertAndSetFirstWall(&head, 2,  20, 50, 280, 10);
+    insertAndSetFirstWall(&head, 2,  300, 50, 10, 100);
+    insertAndSetFirstWall(&head, 2,  300, 150, 110, 10);
+    insertAndSetFirstWall(&head, 2,  400, 50, 10, 100);
+    insertAndSetFirstWall(&head, 2,  400, 50, 220, 10);
+    insertAndSetFirstWall(&head, 2,  620, 50, 10, 290);
+    insertAndSetFirstWall(&head, 2,  620, 340, 20, 10);
+
+    insertAndSetFirstWall(&head, 1,  320, 300, 10, 180);
+    insertAndSetFirstWall(&head, 2,  120, 300, 200, 10);
+    insertAndSetFirstWall(&head, 2,  120, 150, 10, 150);
+    insertAndSetFirstWall(&head, 2,  120, 150, 80, 10);
+    insertAndSetFirstWall(&head, 2,  200, 150, 10, 100);
+    insertAndSetFirstWall(&head, 2,  200, 250, 310, 10);
+    insertAndSetFirstWall(&head, 2,  500, 150, 10, 100);
+    insertAndSetFirstWall(&head, 2,  500, 150, 10, 100);
+    insertAndSetFirstWall(&head, 2,  500, 150, 20, 10);
+    insertAndSetFirstWall(&head, 2,  520, 150, 10, 290);
+    insertAndSetFirstWall(&head, 2,  520, 440, 120, 10);   
 
 
     setup_robot(&robot);

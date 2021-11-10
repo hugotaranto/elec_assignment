@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
     insertAndSetFirstWall(&head, 2,  500, 150, 10, 100);
     insertAndSetFirstWall(&head, 2,  500, 150, 20, 10);
     insertAndSetFirstWall(&head, 2,  520, 150, 10, 290);
-    insertAndSetFirstWall(&head, 2,  520, 440, 120, 10);   
+    insertAndSetFirstWall(&head, 2,  520, 440, 120, 10);  
 
 
     setup_robot(&robot);
@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
         robotMotorMove(&robot);
 
         //Check if robot reaches endpoint. and check sensor values
-        if (checkRobotReachedEnd(&robot, OVERALL_WINDOW_WIDTH, OVERALL_WINDOW_HEIGHT/2+100, 10, 100)){
+        if (checkRobotReachedEnd(&robot, 220, 480, 100, 10)){ //Maze 2
             end_time = clock();
             msec = (end_time-start_time) * 1000 / CLOCKS_PER_SEC;
             robotSuccess(&robot, msec);

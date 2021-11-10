@@ -5,7 +5,7 @@ int start = 1;
 int holeOnLeft, leftDetected, turned, distance, adjust, adjustLeft = 1, adjustRight;
 
 
-void setup_robot(struct Robot *robot){l
+void setup_robot(struct Robot *robot){
     robot->x = 620;
     robot->y = 380;
     robot->true_x = 620;

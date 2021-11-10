@@ -1,22 +1,23 @@
 #include "robot.h"
 
 int moves[6];
-int start = 1;
 int holeOnLeft, leftDetected, turned, distance, adjust, adjustLeft = 1, adjustRight;
+int start;
 
 
 void setup_robot(struct Robot *robot){
-    robot->x = 620;
+    robot->x = 0;
     robot->y = 380;
-    robot->true_x = 620;
+    robot->true_x = 0;
     robot->true_y = 380;
     robot->width = ROBOT_WIDTH;
     robot->height = ROBOT_HEIGHT;
     robot->direction = 0;
-    robot->angle = 270;
+    robot->angle = 90;
     robot->currentSpeed = 0;
     robot->crashed = 0;
     robot->auto_mode = 0;
+    start = 1;
 
     printf("Press arrow keys to move manually, or enter to move automatically\n\n");
 }

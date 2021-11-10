@@ -10,3 +10,19 @@
     insertAndSetFirstWall(&head, 10,  OVERALL_WINDOW_WIDTH/2+100, OVERALL_WINDOW_HEIGHT/2-100, 10, 300);
     insertAndSetFirstWall(&head, 11,  OVERALL_WINDOW_WIDTH/2+100, OVERALL_WINDOW_HEIGHT/2+200, OVERALL_WINDOW_WIDTH/2-100, 10);
     insertAndSetFirstWall(&head, 12,  OVERALL_WINDOW_WIDTH/2+200, OVERALL_WINDOW_HEIGHT/2+100, OVERALL_WINDOW_WIDTH/2-100, 10);
+
+
+    if (checkRobotReachedEnd(&robot, OVERALL_WINDOW_WIDTH, OVERALL_WINDOW_HEIGHT/2+100, 10, 100)){
+
+
+    robot->x = OVERALL_WINDOW_WIDTH/2-50;
+    robot->y = OVERALL_WINDOW_HEIGHT-50;
+    robot->true_x = OVERALL_WINDOW_WIDTH/2-50;
+    robot->true_y = OVERALL_WINDOW_HEIGHT-50;
+    robot->width = ROBOT_WIDTH;
+    robot->height = ROBOT_HEIGHT;
+    robot->direction = 0;
+    robot->angle = 0;
+    robot->currentSpeed = 0;
+    robot->crashed = 0;
+    robot->auto_mode = 0;

@@ -374,8 +374,6 @@ void robotMotorMove(struct Robot * robot) {
 
 void robotAutoMotorMove(struct Robot * robot, int front_left_sensor, int front_right_sensor, int left_side_sensor, int right_side_sensor) {
 
-    // printf("%d\n", front_right_sensor);
-
 
     if (left_side_sensor == 0 && leftDetected == 1 && robot->currentSpeed > 0) {  // compares current left side sensor with old, if old was detected and current isn't there is a hole on left
         holeOnLeft = 1;
@@ -413,7 +411,7 @@ void robotAutoMotorMove(struct Robot * robot, int front_left_sensor, int front_r
         return;
     }
 
-    if (front_right_sensor > 0 && robot->currentSpeed > 5) {
+    if (front_right_sensor > 0 && robot->currentSpeed > 5) {  // this slows the robot down when the longer sensor detects the wall, also turns right if an adjustment is in progress
         if (adjust == 1) {
             robot->direction = RIGHT;
             adjust = 0;

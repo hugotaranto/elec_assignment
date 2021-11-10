@@ -36,5 +36,6 @@ void robotUpdate(struct SDL_Renderer * renderer, struct Robot * robot);
 void robotMotorMove(struct Robot * robot);
 void robotAutoMotorMove(struct Robot * robot, int front_left_sensor, int front_right_sensor, int left_side_sensor, int right_side_sensor);
 void turn(struct Robot * robot, int direction);
+void reset_robot();
 
 #endif // ROBOT_H_INCLUDED

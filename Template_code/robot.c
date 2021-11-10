@@ -2,24 +2,27 @@
 
 int moves[6];
 int holeOnLeft, leftDetected, turned, distance, adjust, adjustLeft = 1, adjustRight;
-int start;
+int start = 1;
 
 
 void setup_robot(struct Robot *robot){
-    robot->x = 0;
-    robot->y = 380;
-    robot->true_x = 0;
-    robot->true_y = 380;
+    robot->x = OVERALL_WINDOW_WIDTH/2-50;
+    robot->y = OVERALL_WINDOW_HEIGHT-50;
+    robot->true_x = OVERALL_WINDOW_WIDTH/2-50;
+    robot->true_y = OVERALL_WINDOW_HEIGHT-50;
     robot->width = ROBOT_WIDTH;
     robot->height = ROBOT_HEIGHT;
     robot->direction = 0;
-    robot->angle = 90;
+    robot->angle = 0;
     robot->currentSpeed = 0;
     robot->crashed = 0;
     robot->auto_mode = 0;
-    start = 1;
 
     printf("Press arrow keys to move manually, or enter to move automatically\n\n");
+}
+
+void reset_robot() {
+    start = 1;
 }
 
 int robot_off_screen(struct Robot * robot){

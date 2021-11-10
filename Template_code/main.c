@@ -11,7 +11,6 @@
 
 int done = 0;
 
-
 int main(int argc, char *argv[]) {
     SDL_Window *window;
     SDL_Renderer *renderer;
@@ -38,28 +37,18 @@ int main(int argc, char *argv[]) {
     // Overall window height = 480
     // Overall window width = 640
 
-    insertAndSetFirstWall(&head, 2,  640-10-220, 400, 10, 80);
-    insertAndSetFirstWall(&head, 2,  640-200-20, 400, 200, 10);
-    insertAndSetFirstWall(&head, 2,  640-10-20, 50, 10, 350);
-    insertAndSetFirstWall(&head, 2,  640-280-20, 50, 280, 10);
-    insertAndSetFirstWall(&head, 2,  640-10-300, 50, 10, 100);
-    insertAndSetFirstWall(&head, 2,  640-110-300, 150, 110, 10);
-    insertAndSetFirstWall(&head, 2,  640-10-400, 50, 10, 100);
-    insertAndSetFirstWall(&head, 2,  640-400-220, 50, 220, 10);
-    insertAndSetFirstWall(&head, 2,  640-10-620, 50, 10, 290);
-    insertAndSetFirstWall(&head, 2,  640-620-20, 340, 20, 10);
-
-
-    insertAndSetFirstWall(&head, 1,  640-10-320, 300, 10, 180);
-    insertAndSetFirstWall(&head, 2,  640-200-120, 300, 200, 10);
-    insertAndSetFirstWall(&head, 2,  640-10-120, 150, 10, 150);
-    insertAndSetFirstWall(&head, 2,  640-80-120, 150, 80, 10);
-    insertAndSetFirstWall(&head, 2,  640-10-200, 150, 10, 100);
-    insertAndSetFirstWall(&head, 2,  640-310-200, 250, 310, 10);
-    insertAndSetFirstWall(&head, 2,  640-10-500, 150, 10, 100);
-    insertAndSetFirstWall(&head, 2,  640-20-500, 150, 20, 10);
-    insertAndSetFirstWall(&head, 2,  640-10-520, 150, 10, 290);
-    insertAndSetFirstWall(&head, 2,  640-120-520, 440, 120, 10);
+    insertAndSetFirstWall(&head, 1,  OVERALL_WINDOW_WIDTH/2, OVERALL_WINDOW_HEIGHT/2, 10, OVERALL_WINDOW_HEIGHT/2);
+    insertAndSetFirstWall(&head, 2,  OVERALL_WINDOW_WIDTH/2-100, OVERALL_WINDOW_HEIGHT/2+100, 10, OVERALL_WINDOW_HEIGHT/2-100);
+    insertAndSetFirstWall(&head, 3,  OVERALL_WINDOW_WIDTH/2-250, OVERALL_WINDOW_HEIGHT/2+100, 150, 10);
+    insertAndSetFirstWall(&head, 4,  OVERALL_WINDOW_WIDTH/2-150, OVERALL_WINDOW_HEIGHT/2, 150, 10);
+    insertAndSetFirstWall(&head, 5,  OVERALL_WINDOW_WIDTH/2-250, OVERALL_WINDOW_HEIGHT/2-200, 10, 300);
+    insertAndSetFirstWall(&head, 6,  OVERALL_WINDOW_WIDTH/2-150, OVERALL_WINDOW_HEIGHT/2-100, 10, 100);
+    insertAndSetFirstWall(&head, 7,  OVERALL_WINDOW_WIDTH/2-250, OVERALL_WINDOW_HEIGHT/2-200, 450, 10);
+    insertAndSetFirstWall(&head, 8,  OVERALL_WINDOW_WIDTH/2-150, OVERALL_WINDOW_HEIGHT/2-100, 250, 10);
+    insertAndSetFirstWall(&head, 9,  OVERALL_WINDOW_WIDTH/2+200, OVERALL_WINDOW_HEIGHT/2-200, 10, 300);
+    insertAndSetFirstWall(&head, 10,  OVERALL_WINDOW_WIDTH/2+100, OVERALL_WINDOW_HEIGHT/2-100, 10, 300);
+    insertAndSetFirstWall(&head, 11,  OVERALL_WINDOW_WIDTH/2+100, OVERALL_WINDOW_HEIGHT/2+200, OVERALL_WINDOW_WIDTH/2-100, 10);
+    insertAndSetFirstWall(&head, 12,  OVERALL_WINDOW_WIDTH/2+200, OVERALL_WINDOW_HEIGHT/2+100, OVERALL_WINDOW_WIDTH/2-100, 10);
 
     setup_robot(&robot);
     updateAllWalls(head, renderer);
@@ -75,7 +64,7 @@ int main(int argc, char *argv[]) {
         robotMotorMove(&robot);
 
         //Check if robot reaches endpoint. and check sensor values
-        if (checkRobotReachedEnd(&robot, 640-10-320, 480, 100, 10)){ //Maze 4
+        if (checkRobotReachedEnd(&robot, OVERALL_WINDOW_WIDTH, OVERALL_WINDOW_HEIGHT/2+100, 10, 100)){
             end_time = clock();
             msec = (end_time-start_time) * 1000 / CLOCKS_PER_SEC;
             robotSuccess(&robot, msec);
@@ -124,6 +113,7 @@ int main(int argc, char *argv[]) {
             }
             if(state[SDL_SCANCODE_SPACE]){
                 setup_robot(&robot);
+                reset_robot();
             }
             if(state[SDL_SCANCODE_RETURN]){
                 robot.auto_mode = 1;
